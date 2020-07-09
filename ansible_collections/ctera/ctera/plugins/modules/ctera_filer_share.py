@@ -47,6 +47,7 @@ options:
   acl:
     description: List of Access Control Entries
     type: list
+    elements: dict
     suboptions:
       principal_type:
         description: The principal type
