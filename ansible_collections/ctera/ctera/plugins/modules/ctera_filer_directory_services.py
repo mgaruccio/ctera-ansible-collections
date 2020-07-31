@@ -20,9 +20,8 @@ short_description: CTERA-Networks Filer active directory configuration and manag
 description:
     - Connect, Disconnect and Reconnect a CTERA-Networks filer to active directory
     - If you only need to change the username and or password, set force_connect to True
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -63,16 +62,16 @@ EXAMPLES = '''
     host: www.example.com
     user: admin
     pass: admin
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 
 - name: Directory Services - Disonnected
   ctera_filer_directory_services:
     state: disconnected
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = '''

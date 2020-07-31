@@ -42,9 +42,9 @@ To use a module from CTERA collection, please reference the full namespace, coll
       server: 192.168.68.122
       user: ygal
       password: Gr8erPassword!
-      filer_host: "{{ filer_host }}"
-      filer_user: "{{ filer_user }}"
-      filer_password: "{{ filer_password }}"
+      ctera_host: "{{ filer_host }}"
+      ctera_user: "{{ filer_user }}"
+      ctera_password: "{{ filer_password }}"
 ```
 
 Or you can add full namepsace and collection name in the `collections` element:
@@ -66,9 +66,9 @@ Or you can add full namepsace and collection name in the `collections` element:
       server: 192.168.68.122
       user: ygal
       password: Gr8erPassword!
-      filer_host: "{{ filer_host }}"
-      filer_user: "{{ filer_user }}"
-      filer_password: "{{ filer_password }}"
+      ctera_host: "{{ filer_host }}"
+      ctera_user: "{{ filer_user }}"
+      ctera_password: "{{ filer_password }}"
 ```
 
 ## License

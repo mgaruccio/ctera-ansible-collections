@@ -47,7 +47,7 @@ class TestCteraFilerFirstUser(BaseTest):
         username = 'admin'
         password = 'password'
         email = 'admin@example.com'
-        first_user.parameters = dict(filer_user=username, filer_password=password)
+        first_user.parameters = dict(ctera_user=username, ctera_password=password)
         if with_email:
             first_user.parameters['email'] = email
         first_user._ctera_filer.get = mock.MagicMock(return_value=munch.Munch(isfirstlogin=is_first_login))

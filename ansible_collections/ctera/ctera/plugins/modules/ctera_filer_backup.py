@@ -19,9 +19,8 @@ module: ctera_filer_backup
 short_description: Configure backup settings for a CTERA-Networks filer. Currently, you cannot modify or disable the configuration
 description:
     - Configure backup settings for a CTERA-Networks filer
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)

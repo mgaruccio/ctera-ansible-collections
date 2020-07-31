@@ -23,18 +23,22 @@ __metaclass__ = type
 from ansible_collections.ctera.ctera.plugins.module_utils.ctera_ansible_module import CteraAnsibleModule
 
 try:
-    from cterasdk import Gateway
+    from cterasdk import GlobalAdmin
 except ImportError:  # pragma: no cover
     pass  # caught by ctera_common
 
 
-class GatewayAnsibleModule(CteraAnsibleModule):
+class PortalAnsibleModule(CteraAnsibleModule):
+    default_argument_spec = {
+        'tenant': dict(type='str')
+    }
 
     def __init__(self, argument_spec, **kwargs):
+        argument_spec.update(PortalAnsibleModule.default_argument_spec)
         super().__init__(argument_spec, **kwargs)
-        self._ctera_host = Gateway(self.params['ctera_host'], port=self.params['ctera_port'], https=self.params['ctera_https'])
+        self._ctera_host = GlobalAdmin(self.params['ctera_host'], port=self.params['ctera_port'], https=self.params['ctera_https'])
 
-    def ctera_filer(self, login=True):
+    def ctera_portal(self, login=True):
         if login:
             self.ctera_login()
         return self._ctera_host

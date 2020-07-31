@@ -20,9 +20,8 @@ short_description: CTERA-Networks Filer Cloud Sync configuration and management
 description:
     - Enable or Disable Cloud-Sync
     - Refresh folders
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -54,30 +53,30 @@ options:
 EXAMPLES = '''
 - name: Enable Caching Gateway and start sync w/o refresh
   ctera_filer_cloud_cache:
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 
 - name: Enable Caching Gateway and start sync with refresh
   ctera_filer_cloud_cache:
     refresh_folders: True
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 
 - name: Enable Caching Gateway w/o sync
   ctera_filer_cloud_cache:
     sync_enabled: False
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 
 - name: Disable Caching Gateway
   ctera_filer_cloud_cache:
     enabled: False
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = r''' # '''

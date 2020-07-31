@@ -19,9 +19,8 @@ module: ctera_filer_telnet
 short_description: CTERA-Networks Filer Telnet configuration and management
 description:
     - Enable or Disable Telnet.
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -43,16 +42,16 @@ EXAMPLES = '''
 - name: Enable Telnet
   ctera_filer_telnet:
     code: abcdefgh
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 
 - name: Disable Telnet
   ctera_filer_telnet:
     enabled: False
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = r''' # '''

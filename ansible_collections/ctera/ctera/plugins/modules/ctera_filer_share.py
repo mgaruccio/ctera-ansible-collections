@@ -20,9 +20,8 @@ short_description: CTERA Filer share configuration and management
 description:
     - Create, modify and delete shares.
     - This module does not handle the creation of the directory and share creation will fail if the directory does not exist
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -47,6 +46,7 @@ options:
   acl:
     description: List of Access Control Entries
     type: list
+    elements: dict
     suboptions:
       principal_type:
         description: The principal type
@@ -127,9 +127,9 @@ EXAMPLES = '''
       type: LocalGroup
       perm: ReadWrite
     access: authenticated
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = '''

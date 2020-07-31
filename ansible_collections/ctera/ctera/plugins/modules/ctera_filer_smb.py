@@ -19,9 +19,8 @@ module: ctera_filer_smb
 short_description: Manage the SMB configuration of the CTERA-Networks filer
 description:
     - Enable/Disable/Modify the SMB configuration of the CTERA-Networks filer
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -64,9 +63,9 @@ requirements:
 EXAMPLES = '''
 - name: Configure SMB as default
   ctera_filer_smb:
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = r''' # '''

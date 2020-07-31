@@ -19,9 +19,8 @@ module: ctera_filer_volume
 short_description: CTERA-Networks Filer volume configuration and management
 description:
     - Create, modify and delete volumes.
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -63,9 +62,9 @@ EXAMPLES = '''
 - name: create new volume
   ctera_filer_volume:
     name: main
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = '''
