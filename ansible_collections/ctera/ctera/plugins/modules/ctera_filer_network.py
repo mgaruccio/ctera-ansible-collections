@@ -19,9 +19,8 @@ module: ctera_filer_network
 short_description: CTERA-Networks filer network configuration
 description:
     - Configure the network of a CTERA-Networks filer
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -58,16 +57,16 @@ requirements:
 EXAMPLES = '''
 - name: Use DHCP
   ctera_filer_network:
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 
 - name: Set DNS Server
   ctera_filer_network:
     primary_dns_server: 8.8.8.8
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 
 - name: Set IP Address
   ctera_filer_network:
@@ -75,9 +74,9 @@ EXAMPLES = '''
     subnet: 255.255.255.0
     gateway: 192.168.1.1
     primary_dns_server: 8.8.8.8
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = r''' # '''

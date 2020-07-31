@@ -19,9 +19,8 @@ module: ctera_filer_cloud_services
 short_description: Cloud services configuration and management
 description:
     - Connect, Disconnect and Reconnect a CTERA filer to the cloud serivces
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -82,9 +81,9 @@ EXAMPLES = '''
     user: admin
     password: admin
     ctera_license: EV32
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = '''

@@ -1,15 +1,15 @@
-filer_trust_certificate = False
+trust_certificate = False
 
 class AnsibleModuleMock():
 
     def __init__(self, _argument_spec, **_kwargs):
         self.params = dict(
-            filer_host='192.168.1.1',
-            filer_user='admin',
-            filer_https=True,
-            filer_port=None,
-            filer_password='password',
-            filer_trust_certificate=filer_trust_certificate
+            ctera_host='192.168.1.1',
+            ctera_user='admin',
+            ctera_https=True,
+            ctera_port=None,
+            ctera_password='password',
+            ctera_trust_certificate=trust_certificate
         )
         self.fail_dict = {}
         self.exit_dict = {}

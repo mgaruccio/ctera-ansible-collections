@@ -20,9 +20,8 @@ short_description: First user on a CTERA-Networks filer
 description:
     - First user on a CTERA-Networks filer
     - Please note that the first user cannot be modified.
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -40,9 +39,9 @@ requirements:
 EXAMPLES = '''
 - name: first local user
   ctera_filer_add_first_user:
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = '''
@@ -68,12 +67,12 @@ class CteraFilerFirstUser(CteraFilerBase):
         logininfo = self._ctera_filer.get('/nosession/logininfo')
 
         if logininfo.isfirstlogin:
-            self._ctera_filer.users.add_first_user(self.parameters['filer_user'], self.parameters['filer_password'], email=self.parameters.get('email', ''))
+            self._ctera_filer.users.add_first_user(self.parameters['ctera_user'], self.parameters['ctera_password'], email=self.parameters.get('email', ''))
             self.ansible_module.ctera_return_value().changed().msg('User created')
         else:
             self._ctera_filer = self.ansible_module.ctera_filer(login=True)
             self.ansible_module.ctera_return_value().msg('First user was already created')
-        self.ansible_module.ctera_return_value().put(user=self.parameters['filer_user'])
+        self.ansible_module.ctera_return_value().put(user=self.parameters['ctera_user'])
 
 
 def main():  # pragma: no cover

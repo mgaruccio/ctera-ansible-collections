@@ -21,40 +21,22 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 from ansible_collections.ctera.ctera.plugins.module_utils.ctera_edge import GatewayAnsibleModule
-import ansible_collections.ctera.ctera.plugins.module_utils.ctera_common as ctera_common
-
-try:
-    from cterasdk import CTERAException, tojsonstr
-except ImportError:  # pragma: no cover
-    pass  # caught by ctera_common
+from ansible_collections.ctera.ctera.plugins.module_utils.ctera_runner_base import CteraRunnerBase
 
 
-class CteraFilerBase(object):
+class CteraFilerBase(CteraRunnerBase):
 
     def __init__(self, ansible_module_args, supports_check_mode=False, required_if=None, login=True, required_by=None):
-        required_if = required_if or []
-        self.ansible_module = GatewayAnsibleModule(
+        super().__init__(
+            GatewayAnsibleModule,
             ansible_module_args,
             supports_check_mode=supports_check_mode,
             required_if=required_if,
+            login=login,
             required_by=required_by
         )
-        self.parameters = ctera_common.get_parameters(self.ansible_module.params)
         self._ctera_filer = None
-        self._login = login
 
     def run(self):
         self._ctera_filer = self.ansible_module.ctera_filer(login=self._login)
-        try:
-            self._execute()
-        except CTERAException as error:
-            self.ansible_module.ctera_return_value().failed().msg(self._generic_failure_message + (' Exception: %s' % tojsonstr(error, False)))
-        self.ansible_module.ctera_logout()
-        self.ansible_module.ctera_exit()
-
-    @property
-    def _generic_failure_message(self):  # pragma: no cover
-        raise NotImplementedError("Implementing classes must implemen _generic_failure_message")
-
-    def _execute(self):  # pragma: no cover
-        raise NotImplementedError("Implementing classes must implemen _execute")
+        super().run()

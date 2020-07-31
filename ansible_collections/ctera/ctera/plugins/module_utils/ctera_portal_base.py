@@ -20,21 +20,27 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
-from ansible_collections.ctera.ctera.plugins.module_utils.ctera_ansible_module import CteraAnsibleModule
-
-try:
-    from cterasdk import Gateway
-except ImportError:  # pragma: no cover
-    pass  # caught by ctera_common
+from ansible_collections.ctera.ctera.plugins.module_utils.ctera_portal import PortalAnsibleModule
+from ansible_collections.ctera.ctera.plugins.module_utils.ctera_runner_base import CteraRunnerBase
 
 
-class GatewayAnsibleModule(CteraAnsibleModule):
+class CteraPortalBase(CteraRunnerBase):
 
-    def __init__(self, argument_spec, **kwargs):
-        super().__init__(argument_spec, **kwargs)
-        self._ctera_host = Gateway(self.params['ctera_host'], port=self.params['ctera_port'], https=self.params['ctera_https'])
+    def __init__(self, ansible_module_args, supports_check_mode=False, required_if=None, login=True, required_by=None):
+        super().__init__(
+            PortalAnsibleModule,
+            ansible_module_args,
+            supports_check_mode=supports_check_mode,
+            required_if=required_if,
+            login=login,
+            required_by=required_by
+        )
+        self._ctera_portal = None
 
-    def ctera_filer(self, login=True):
-        if login:
-            self.ctera_login()
-        return self._ctera_host
+    def run(self):
+        self._ctera_portal = self.ansible_module.ctera_portal(login=self._login)
+        if self._login:
+            tenant = self.parameters.pop('tenant', None)
+            if tenant:
+                self._ctera_portal.portals.browse(tenant)
+        super().run()

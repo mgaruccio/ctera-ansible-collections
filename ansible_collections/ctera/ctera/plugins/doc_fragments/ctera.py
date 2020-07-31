@@ -4,29 +4,29 @@ __metaclass__ = type
 
 
 class ModuleDocFragment(object):
-    # Documentation fragment for FILER (ctera_filer)
+    # Documentation fragment for CTERA (ctera)
     DOCUMENTATION = r'''
 options:
-  filer_host:
-    description: IP Address or FQDN of the CTERA Networks Filer
+  ctera_host:
+    description: IP Address or FQDN of the CTERA Networks Host
     required: True
     type: str
-  filer_https:
-    description: Connect to the Filer using HTTPS
+  ctera_https:
+    description: Connect to the Host using HTTPS
     type: bool
     default: True
-  filer_port:
-    description: Connection port to the Filer
+  ctera_port:
+    description: Connection port to the Host
     type: int
-  filer_user:
-    description: User Name for communicating with the CTERA Networks Filer
+  ctera_user:
+    description: User Name for communicating with the CTERA Networks Host
     required: True
     type: str
-  filer_password:
+  ctera_password:
     description: Password of the user
     required: True
     type: str
-  filer_trust_certificate:
+  ctera_trust_certificate:
     description: Trust unverified certificates
     type: bool
     default: False

@@ -19,9 +19,8 @@ module: ctera_filer_user
 short_description: CTERA-Networks Filer user configuration and management
 description:
     - Create, modify and delete users.
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -62,9 +61,9 @@ EXAMPLES = '''
     email: 'walice@wonderland.com'
     full_name: 'Alice Wonderland'
     password: 'su@p3rsecret!!'
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = '''

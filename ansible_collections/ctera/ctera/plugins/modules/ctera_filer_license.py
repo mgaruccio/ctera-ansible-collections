@@ -19,9 +19,8 @@ module: ctera_filer_license
 short_description: Apply a license on a CTERA-Networks filer
 description:
     - Apply a license on a CTERA-Networks filer
-version_added: "2.10"
 extends_documentation_fragment:
-    - ctera.ctera.filer
+    - ctera.ctera.ctera
 
 author:
     - Saimon Michelson (@saimonation)
@@ -47,9 +46,9 @@ EXAMPLES = '''
 - name: apply license
   ctera_filer_apply_license:
     license: EV16
-    filer_host: "{{ ctera_filer_hostname }}"
-    filer_user: "{{ ctera_filer_user }}"
-    filer_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_filer_hostname }}"
+    ctera_user: "{{ ctera_filer_user }}"
+    ctera_password: "{{ ctera_filer_password }}"
 '''
 
 RETURN = '''
