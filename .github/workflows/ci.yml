@@ -40,7 +40,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - id: tagName
-      uses: olegtarasov/get-tag@v2
+      uses: little-core-labs/get-git-tag@v3.0.1
     - name: Deploy Ansible Galaxy Collection
       uses: artis3n/ansible_galaxy_collection@v2
       with:
