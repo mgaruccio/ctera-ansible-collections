@@ -99,9 +99,9 @@ class CteraFilerArray(CteraFilerBase):
                 state=dict(required=False, choices=['present', 'absent'], default='present'),
                 array_name=dict(type='str', required=True),
                 level=dict(type='str', choices=['linear', '0', '1', '5', '6']),
-                members=dict(type='list', elements='str')
+                members=dict(type='list', elements='str', required=False)
             ),
-            required_if=[('state', 'present', ['level', 'members'])]
+            required_if=[('state', 'present', ['level'])]
         )
 
     @property
