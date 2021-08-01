@@ -15,13 +15,13 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = '''
 ---
-module: ctera_filer_directory_services
-short_description: CTERA-Networks Filer active directory configuration and management
+module: ctera_portal_directory_services
+short_description: CTERA Portal Active Directory configuration and management
 description:
-    - Connect, Disconnect and Reconnect a CTERA-Networks filer to active directory
+    - Connect, configure and disconnect CTERA Portal from active directory
     - If you only need to change the username and or password, set force_connect to True
 extends_documentation_fragment:
-    - ctera.ctera.ctera
+    - ctera.ctera.vportal
 
 author:
     - Saimon Michelson (@saimonation)
@@ -47,6 +47,16 @@ options:
   ou:
     description: The OU path to use when connecting to the active directory services
     type: str
+  ssl:
+    description: Connect to Active Directory over SSL
+    type: bool
+  krb:
+    description: Connect to Active Directory over Kerberos
+    type: bool
+  domain_controllers:
+    description: Configure a primary and a secondary domain controllers
+    type: list
+    elements: str
   force_reconnect:
     description: Disconnect and connect even if connected to the domain
     type: bool
@@ -58,46 +68,40 @@ requirements:
 
 EXAMPLES = '''
 - name: Directory Services - Connected
-  ctera_filer_directory_services:
+  ctera_portal_directory_services:
     domain: ctera.local
     username: admin
     password: admin
-    ctera_host: "{{ ctera_filer_hostname }}"
-    ctera_user: "{{ ctera_filer_user }}"
-    ctera_password: "{{ ctera_filer_password }}"
+    domain_controllers:
+      - "192.168.0.50"
+      - "192.168.0.51"
+    ctera_host: "{{ ctera_portal_hostname }}"
+    ctera_user: "{{ ctera_portal_user }}"
+    ctera_password: "{{ ctera_portal_password }}"
+    ctera_trust_certificate: True
 
 - name: Directory Services - Disonnected
-  ctera_filer_directory_services:
+  ctera_portal_directory_services:
     state: disconnected
-    ctera_host: "{{ ctera_filer_hostname }}"
-    ctera_user: "{{ ctera_filer_user }}"
-    ctera_password: "{{ ctera_filer_password }}"
+    ctera_host: "{{ ctera_portal_hostname }}"
+    ctera_user: "{{ ctera_portal_user }}"
+    ctera_password: "{{ ctera_portal_password }}"
+    ctera_trust_certificate: True
 '''
 
-RETURN = '''
-domain:
-  description: Active Directory domain connected to
-  returned: when state is connected, or when actualy disconnecting
-  type: str
-  sample: ad.example.com
-username:
-  description: User Name used to communicate with the Active Directory Service
-  returned: when state is connected
-  type: str
-  sample: admin
-ou:
-  description: The OU path used when connecting to the active directory services
-  returned: when state is connected
-  type: str
-  sample: Domain Controllers
-'''
+RETURN = '''#'''
 
 import ansible_collections.ctera.ctera.plugins.module_utils.ctera_common as ctera_common
-from ansible_collections.ctera.ctera.plugins.module_utils.ctera_filer_base import CteraFilerBase
+from ansible_collections.ctera.ctera.plugins.module_utils.ctera_portal_base import CteraPortalBase
+
+try:
+    from cterasdk import CTERAException, portal_types
+except ImportError:  # pragma: no cover
+    pass  # caught by ctera_common
 
 
-class CteraFilerDirectoryServices(CteraFilerBase):
-    _connect_params = ['domain', 'username', 'password', 'ou']
+class CteraPortalDirectoryServices(CteraPortalBase):
+    _connect_params = ['domain', 'username', 'password', 'ou', 'ssl', 'krb', 'domain_controllers']
 
     def __init__(self):
         super().__init__(
@@ -107,6 +111,9 @@ class CteraFilerDirectoryServices(CteraFilerBase):
                 username=dict(type='str', required=False),
                 password=dict(type='str', required=False, no_log=True),
                 ou=dict(type='str', required=False),
+                ssl=dict(type='bool', required=False),
+                krb=dict(type='bool', required=False),
+                domain_controllers=dict(type='list', elements='str', required=False),
                 force_reconnect=dict(type='bool', required=False, default=False),
             ),
             required_if=[
@@ -133,37 +140,44 @@ class CteraFilerDirectoryServices(CteraFilerBase):
             self._do_connect()
 
     def _do_connect(self):
-        connect_params = ctera_common.filter_parameters(self.parameters, CteraFilerDirectoryServices._connect_params)
-        self._ctera_filer.directoryservice.connect(**connect_params)
+        connect_params = ctera_common.filter_parameters(self.parameters, CteraPortalDirectoryServices._connect_params)
+        domain_controllers = self._create_domain_controllers_from_list(connect_params.pop('domain_controllers', None))
+        self._ctera_portal.directoryservice.connect(**connect_params, domain_controllers=domain_controllers)
         self.ansible_module.ctera_return_value().changed().msg('Connected to Active Directory').put(**connect_params)
 
+    @staticmethod
+    def _create_domain_controllers_from_list(domain_controllers):
+        if domain_controllers:
+            if len(domain_controllers) > 2:
+                raise CTERAException("Cannot set more than two static domain controllers")
+
+            primary = domain_controllers[0] if len(domain_controllers) > 0 else None
+            secondary = domain_controllers[1] if len(domain_controllers) > 1 else None
+            return portal_types.DomainControllers(primary, secondary)
+        return None
+
     def _handle_modify(self, connected_domain):
-        if self._ctera_filer.directoryservice.connected() and \
-                connected_domain['domain'] == self.parameters['domain'] and \
-                not self.parameters['force_reconnect']:
-            self.ansible_module.ctera_return_value().msg('The Edge Filer is already connected to Active Directory').put(domain=connected_domain['domain'])
+        if self._ctera_portal.directoryservice.connected() and \
+           connected_domain['domain'] == self.parameters['domain'] and not self.parameters['force_reconnect']:
+            self.ansible_module.ctera_return_value().msg('The Portal is already connected to Active Directory').put(domain=connected_domain['domain'])
             return
-        self._ctera_filer.directoryservice.disconnect()
+        self._ctera_portal.directoryservice.disconnect()
         self._do_connect()
 
     def _ensure_disconnected(self, connected_domain):
         if connected_domain['domain']:
-            self._ctera_filer.directoryservice.disconnect()
-            self.ansible_module.ctera_return_value().changed().msg('Successfully disconnected the Edge Filer from Active Directory').put(
+            self._ctera_portal.directoryservice.disconnect()
+            self.ansible_module.ctera_return_value().changed().msg('Successfully disconnected the Portal from Active Directory').put(
                 domain=connected_domain['domain'])
         else:
-            self.ansible_module.ctera_return_value().msg('The Edge Filer is already not connected to Active Directory')
+            self.ansible_module.ctera_return_value().msg('The Portal is already not connected to Active Directory')
 
     def _get_connected_domain(self):
-        return self._to_domain_dict(self._ctera_filer.directoryservice.get_connected_domain())
-
-    @staticmethod
-    def _to_domain_dict(config):
-        return {k: v for k, v in config.__dict__.items() if not k.startswith("_")}
+        return {'domain': self._ctera_portal.directoryservice.get_connected_domain()}
 
 
 def main():  # pragma: no cover
-    CteraFilerDirectoryServices().run()
+    CteraPortalDirectoryServices().run()
 
 
 if __name__ == '__main__':  # pragma: no cover
