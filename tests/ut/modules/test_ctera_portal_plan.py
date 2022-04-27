@@ -62,7 +62,7 @@ class TestCteraPortalPlan(BaseTest):
             plan._ensure_absent.assert_called_once_with(mock.ANY)
             plan._ensure_present.assert_not_called()
 
-    def test_get_user_exists(self):
+    def test_get_plan_exists(self):
         expected_user_dict = dict(
             name='main',
             retention=[
@@ -84,7 +84,8 @@ class TestCteraPortalPlan(BaseTest):
                 dict(item_name='WA', amount=26),
                 dict(item_name='SA', amount=27),
                 dict(item_name='Share', amount=28),
-                dict(item_name='Connect', amount=29)
+                dict(item_name='Connect', amount=29),
+                dict(item_name='Storage', amount=30)
             ]
         )
         returned_dict = munch.Munch(dict(
@@ -107,7 +108,8 @@ class TestCteraPortalPlan(BaseTest):
             workstationAgents=munch.Munch(dict(amount=26)),
             serverAgents=munch.Munch(dict(amount=27)),
             cloudDrives=munch.Munch(dict(amount=28)),
-            cloudDrivesLite=munch.Munch(dict(amount=29))
+            cloudDrivesLite=munch.Munch(dict(amount=29)),
+            storage=munch.Munch(dict(amount=30))
         ))
         plan = CteraPortalPlan()
         plan.parameters = dict(name='admin')
@@ -148,7 +150,8 @@ class TestCteraPortalPlan(BaseTest):
                 dict(item_name='WA', amount=26),
                 dict(item_name='SA', amount=27),
                 dict(item_name='Share', amount=28),
-                dict(item_name='Connect', amount=29)
+                dict(item_name='Connect', amount=29),
+                dict(item_name='Storage', amount=30)
             ]
         )
         desired_attributes = copy.deepcopy(current_attributes)

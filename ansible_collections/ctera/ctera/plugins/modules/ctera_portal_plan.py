@@ -79,6 +79,7 @@ options:
         - SA
         - Share
         - Connect
+        - Storage
       amount:
         description: The quota's amount
         type: int
@@ -120,7 +121,7 @@ except ImportError:  # pragma: no cover
 class CteraPortalPlan(CteraPortalBase):
     _create_params = ['name', 'email', 'first_name', 'last_name', 'password', 'role', 'company', 'comment', 'password_change']
     _retention_policy_names = ['retainAll', 'hourly', 'daily', 'weekly', 'monthly', 'quarterly', 'yearly', 'retainDeleted']
-    _quotas_item_names = ['EV4', 'EV8', 'EV16', 'EV32', 'EV64', 'EV128', 'WA', 'SA', 'Share', 'Connect']
+    _quotas_item_names = ['EV4', 'EV8', 'EV16', 'EV32', 'EV64', 'EV128', 'WA', 'SA', 'Share', 'Connect', 'Storage']
 
     def __init__(self):
         super().__init__(
@@ -175,7 +176,8 @@ class CteraPortalPlan(CteraPortalBase):
                     'workstationAgents',
                     'serverAgents',
                     'cloudDrives',
-                    'cloudDrivesLite'
+                    'cloudDrivesLite',
+                    'storage',
                 ]
             )
         except CTERAException:
@@ -225,6 +227,7 @@ class CteraPortalPlan(CteraPortalBase):
                 dict(item_name='SA', amount=plan.serverAgents.amount),
                 dict(item_name='Share', amount=plan.cloudDrives.amount),
                 dict(item_name='Connect', amount=plan.cloudDrivesLite.amount),
+                dict(item_name='Storage', amount=plan.storage.amount),
             ]
         )
 
