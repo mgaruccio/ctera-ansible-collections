@@ -21,7 +21,7 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 from ansible_collections.ctera.ctera.plugins.module_utils.ctera_filer_base import CteraFilerBase
-import ansible_collections.ctera.ctera.plugins.module_utils.ctera_common as ctera_common
+from ansible_collections.ctera.ctera.plugins.module_utils import ctera_common
 
 try:
     from cterasdk import gateway_enum

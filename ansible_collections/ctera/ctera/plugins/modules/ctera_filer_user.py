@@ -89,7 +89,7 @@ uid:
   sample: XXX
 '''
 
-import ansible_collections.ctera.ctera.plugins.module_utils.ctera_common as ctera_common
+from ansible_collections.ctera.ctera.plugins.module_utils import ctera_common
 from ansible_collections.ctera.ctera.plugins.module_utils.ctera_filer_base import CteraFilerBase
 
 try:

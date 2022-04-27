@@ -22,7 +22,7 @@ __metaclass__ = type
 
 from abc import ABC, abstractmethod, abstractproperty
 
-import ansible_collections.ctera.ctera.plugins.module_utils.ctera_common as ctera_common
+from ansible_collections.ctera.ctera.plugins.module_utils import ctera_common
 
 try:
     from cterasdk import CTERAException, tojsonstr
@@ -50,7 +50,7 @@ class CteraRunnerBase(ABC):
         self.ansible_module.ctera_logout()
         self.ansible_module.ctera_exit()
 
-    @abstractproperty
+    @property
     def _generic_failure_message(self):  # pragma: no cover
         raise NotImplementedError("Implementing classes must implement _generic_failure_message")
 
