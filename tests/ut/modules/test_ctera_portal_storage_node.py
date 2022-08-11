@@ -233,8 +233,8 @@ class TestCteraPortalStorageNode(BaseTest):
 
             },
             {
-                'bucket_type': portal_enum.BucketType.S3Compatible,
-                'bucket_object_type': portal_types.S3Compatible
+                'bucket_type': portal_enum.BucketType.GenericS3,
+                'bucket_object_type': portal_types.GenericS3
             },
             {
                 'bucket_type': portal_enum.BucketType.Nutanix,

@@ -50,7 +50,7 @@ options:
         - Scality
         - AWS
         - ICOS
-        - S3Compatible
+        - GenericS3
         - Nutanix
         - Wasabi
         - Google
@@ -161,7 +161,7 @@ class CteraPortalStorageNode(CteraPortalBase):
                 name=dict(required=True),
                 bucket_info=dict(type='dict', options=dict(
                     bucket_type=dict(required=True, choices=['Azure', 'Scality', 'AWS', 'ICOS',
-                                                             'S3Compatible', 'Nutanix', 'Wasabi', 'Google', 'NetAppStorageGRID']),
+                                                             'GenericS3', 'Nutanix', 'Wasabi', 'Google', 'NetAppStorageGRID']),
                     bucket=dict(required=True),
                     access_key=dict(required=True, no_log=True),
                     secret_key=dict(required=True, no_log=True),
@@ -226,8 +226,8 @@ class CteraPortalStorageNode(CteraPortalBase):
             bucket_object_type = portal_types.AmazonS3
         elif bucket_type == portal_enum.BucketType.ICOS:
             bucket_object_type = portal_types.ICOS
-        elif bucket_type == portal_enum.BucketType.S3Compatible:
-            bucket_object_type = portal_types.S3Compatible
+        elif bucket_type == portal_enum.BucketType.GenericS3:
+            bucket_object_type = portal_types.GenericS3
         elif bucket_type == portal_enum.BucketType.Nutanix:
             bucket_object_type = portal_types.Nutanix
         elif bucket_type == portal_enum.BucketType.Wasabi:
