@@ -40,7 +40,7 @@ options:
   level:
     description: The array type
     type: str
-    choices: ['linear', '0', '1', '5', '6']
+    choices: ['lvm', 'linear', '0', '1', '5', '6']
   members:
     description: A list of drive names
     type: list
@@ -97,7 +97,7 @@ class CteraFilerArray(CteraFilerBase):
             dict(
                 state=dict(required=False, choices=['present', 'absent'], default='present'),
                 array_name=dict(type='str', required=True),
-                level=dict(type='str', choices=['linear', '0', '1', '5', '6']),
+                level=dict(type='str', choices=['lvm', 'linear', '0', '1', '5', '6']),
                 members=dict(type='list', elements='str', required=False)
             ),
             required_if=[('state', 'present', ['level'])]
