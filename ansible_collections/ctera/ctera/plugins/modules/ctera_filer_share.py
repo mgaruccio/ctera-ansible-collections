@@ -82,7 +82,7 @@ options:
     choices:
     - manual
     - documents
-    - disabled
+    - disable
     default: manual
   dir_permissions:
     description: Directory Permission
@@ -209,7 +209,7 @@ class CteraFilerShare(CteraFilerBase):
                 )
             ),
             access=dict(required=False, choices=['winAclMode', 'authenticated'], default='winAclMode'),
-            csc=dict(required=False, choices=['manual', 'documents', 'disabled'], default='manual'),
+            csc=dict(required=False, choices=['manual', 'documents', 'disable'], default='manual'),
             dir_permissions=dict(required=False, type='int', default=777),
             comment=dict(type='str', required=False),
             export_to_afp=dict(type='bool', required=False, default=False),
